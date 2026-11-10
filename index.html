@@ -111,7 +111,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline:3px 
 </head>
 <body>
 <div class="desktop">
-  <div class="desktop-copy"><div class="eyebrow">ӘР СӘТ — БІР ЕСТЕЛІК</div><h1>Біздің махаббат әлеміміз <span style="color:#a86e74">♥</span></h1><p></p><div class="tiny"></div></div>
+  <div class="desktop-copy"><div class="eyebrow">ӘР СӘТ — БІР ЕСТЕЛІК</div><h1>Біздің махаббат әлеміміз <span style="color:#a86e74">♥</span></h1><p>Бір адамға арналған ерекше виртуалды әлем. Естеліктер галереясын аралап, жүректен шыққан хатты оқы.</p><div class="tiny">♥ Махаббатпен жасалған шағын 3D тәжірибе</div></div>
   <main class="phone" aria-label="Біздің махаббат әлеміміз">
     <section class="screen intro" id="intro"><div class="heart-holder"><svg class="heart-svg" viewBox="0 0 200 185" aria-label="Жүрек" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="hgrad" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a96770"/><stop offset=".55" stop-color="#9c5c64"/><stop offset="1" stop-color="#75434c"/></linearGradient></defs><path d="M100 172 C73 150 15 114 15 67 C15 13 76 4 100 43 C125 4 185 13 185 67 C185 114 127 150 100 172 Z" fill="url(#hgrad)"/><path d="M100 43 C81 12 34 12 22 50" fill="none" stroke="#dfb0ad" stroke-width="4" opacity=".22"/></svg></div><p class="pre" id="introPre">Нана, бұл әлем саған арналған</p><h2>Біздің махаббат әлеміміз</h2><p class="by" id="introBy">Саған деген махаббатпен ❤️</p><button class="primary" id="openWorld">Ашу ❤️</button><div class="footer-note">Біз туралы кішкентай әлем ♡</div></section>
     <section class="screen gallery" id="gallery" aria-label="3D галерея">
@@ -132,7 +132,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline:3px 
 'use strict';
 const $=id=>document.getElementById(id);
 const dataDefault={recipient:'Нана',sender:'Назар',letter:'Қымбаттым Нана,\n\nБұл әлемді саған арнап жасадым. Әрбір сурет — біз үшін ерекше естелік, әрбір сәт — жүрегімде мәңгі қалатын бақыт.\n\nБірге өткізген әр күнім үшін саған рақмет. Алдымызда әлі қаншама әдемі жол, қаншама қуанышты сәт күтіп тұр.\n\nСені шексіз жақсы көремін. Жүрегім әрдайым сенімен! ❤️\n\n— Назар',titles:["Алғашқы кездесу 16.07.2026", "Нәнәмнің торты және кино 26.07.2026", "Бәйге төбеде 01.08.2026", "Әңгімелесіп бірге жүретін кеш 26.08.2026", "Толбо көлде 03.09.2026", "Астанада Нәнәм екеміз бір бірімзді қимай екі жаққа оқуға кеткен сәт 10.09.2026"]};
-const storageKey='mahabbat-alemi-v3';
+const storageKey='mahabbat-alemi-v4';
 let saved={};try{saved=JSON.parse(localStorage.getItem(storageKey)||'{}')||{}}catch(e){}
 let published={};try{published=JSON.parse($('publishedData')?.textContent||'{}')||{}}catch(e){}
 const state={...dataDefault,...published,...saved,titles:Array.isArray(saved.titles)&&saved.titles.length===6?saved.titles:Array.isArray(published.titles)&&published.titles.length===6?published.titles:dataDefault.titles,photos:Array.isArray(saved.photos)?saved.photos:Array.isArray(published.photos)?published.photos:[]};
@@ -148,12 +148,12 @@ return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);}
 const artwork=Array.from({length:6},(_,i)=>makeArt(i));
 // Суреттер GitHub репозиторийіндегі photos бумасынан оқылады.
 const githubPhotos=Array.from({length:6},(_,i)=>`photos/0${i+1}.jpeg`);
-function getPhoto(i){return state.photos[i]||githubPhotos[i];}
+function getPhoto(i){return githubPhotos[i];}
 // Фотосурет әлі жүктелмесе, уақытша сурет көрсетіледі.
 document.addEventListener('error',e=>{
   const img=e.target;
   if(!(img instanceof HTMLImageElement))return;
-  const match=(img.getAttribute('src')||'').match(/^photos\/0([1-6])\.jpg$/);
+  const match=(img.getAttribute('src')||'').match(/^photos\/0([1-6])\.jpeg$/);
   if(match)img.src=artwork[Number(match[1])-1];
 },true);
 function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>el.classList.remove('show'),2600);}
